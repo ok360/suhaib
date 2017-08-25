@@ -8,7 +8,7 @@ class LoginController extends Controller
 {
     public function login()
     {
-        return 'Login Page';
+        return view ('login.index');
     }
 
 }
