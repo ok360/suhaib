@@ -2,6 +2,8 @@
 
 Route::resource('book','BookController');
 
+Route::resource('image','ImageController');
+
 //Route::get('/','TestController@index');
 
 //Route::get('home','TestController@home');

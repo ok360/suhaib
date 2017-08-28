@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Book;
+use App\Image;
 use Illuminate\Http\Request;
 
-class BookController extends Controller
+class ImageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books= Book::all ();
-        return view('book.index',compact ('books'));
+       $images= Image::all ();
+        return view('image.index',compact ('images'));
     }
 
     /**
@@ -36,12 +36,19 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate ($request, [
-            'title'=>'required|min:6|unique:books'
-        ]);
 
-        Book::create($request->all ());
-        return back ()->with ('success','Record created successfully!');
+       $image = $request->file ('image');
+
+       $image_name = time().str_random (3).'.'.$image->getClientOriginalExtension();
+       $image->move ('images',$image_name);
+
+       Image::create([
+           'image'=>$image_name
+                     ]);
+       return back ();
+
+
+//       return dd ($image);
     }
 
     /**
@@ -63,8 +70,7 @@ class BookController extends Controller
      */
     public function edit($id)
     {
-        $book= Book::find($id);
-       return view('book.edit',compact ('book'));
+        //
     }
 
     /**
@@ -76,10 +82,7 @@ class BookController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $book= Book::find($id);
-        $book->title=$request->title;
-        $book->save ();
-        return redirect ('book');
+        //
     }
 
     /**
@@ -90,7 +93,6 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        Book::destroy ($id);
-        return back ();
+        //
     }
 }

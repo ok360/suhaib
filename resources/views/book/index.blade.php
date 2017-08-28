@@ -1,5 +1,26 @@
+@extends('layout.master')
+@section('body')
 <h1>Book Management</h1>
 
+@if($errors->any())
+    <div class="alert alert-warning">
+        <ul>
+            @foreach($errors->all() as $error)
+                <li>{{$error}}</li>
+            @endforeach
+        </ul>
+
+    </div>
+
+@endif
+
+@if(session ('success'))
+
+    <div class="alert alert-success">
+        <h3>{{session('success')}}</h3>
+    </div>
+
+@endif
 {!! Form::open(['url'=>'book','method'=>'post']) !!}
 {!! Form::text('title') !!}
 {!! Form::submit('Save') !!}
@@ -7,7 +28,7 @@
 
 <table border="1">
     <tr>
-        <th>Name</th>
+        <th>Title</th>
         <th>Action</th>
     </tr>
     @foreach($books as $book)
@@ -21,5 +42,8 @@
                 {{Form::close()}}
             </td>
         </tr>
-        @endforeach
+
+    @endforeach
 </table>
+
+@endsection
